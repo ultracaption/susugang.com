@@ -1,0 +1,20 @@
+<div class="assessment">
+  <h4>
+    <%= link_to lecture.title, lecture %>
+    <small>[<%= lecture.provider %>]</small>
+  </h4>
+  <p>
+    <% if lecture.assessments.empty? %>
+      <small> 강의평이 없습니다. </small>
+    <% else %>
+      <small> <%= c(lecture.assessments.first.content) %> </small>
+    <% end %>
+  </p>
+</div>
+
+<div class="alert alert-info">
+  총점 <b><%= s(lecture.overall_score) %></b> |
+  수업만족 <b><%= s(lecture.presentation_score) %></b> |
+  학점만족 <b><%= s(lecture.grading_score) %></b> |
+  과제만족도 <b><%= s(lecture.workload_score) %></b>
+</div>

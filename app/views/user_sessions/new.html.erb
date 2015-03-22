@@ -1,0 +1,26 @@
+<div class="login-form-container">
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <h2 class="login-header">LOGIN</h2>
+
+    <%= f.label :username, '아이디', class: 'control-label' %>
+    <%= f.text_field :username, class: 'input-block-level', placeholder: 'ID' %>
+    <%= f.label :password, '비밀번호', class: 'control-label' %>
+    <%= f.password_field :password, class: 'input-block-level', placeholder: 'PASSWORD' %>
+
+    <div class="actions">
+      <%= f.submit '들어가기', class: 'btn btn-block btn-primary' %>
+    </div>
+  <% end %>
+  <p>
+  <br/>
+  <strong>
+    죄송합니다. 성신포탈의 수수깡 서버 차단으로 회원가입 절차가 변경되었습니다. 간단한 재학생 인증퀴즈 후 수수깡을 이용해주세요.<br/>
+  </strong>
+  <br/>
+  <small>
+    (회원가입 절차 변경으로 기존 회원 데이터가 리셋되었습니다. <strong>기존 사용자 분들은 재가입을 부탁드리며</strong> 다시 한 번 죄송하다는 말씀을 전합니다.)
+  </small>
+</p>
+<strong><%= link_to '수수깡 가입하기', new_registration_path, class: 'pull-right' %></strong>
+  <div class="clearfix"></div>
+</div>

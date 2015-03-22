@@ -1,0 +1,400 @@
+/*
+ *= require bootstrap_and_overrides
+ *= require jackedup
+ */
+@import 'mixins';
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color:#94c9ff;
+  font-family:'나눔고딕',NanumGothic,'돋움',Dotum,AppleGothic,sans-serif;
+  height: 100%;
+}
+
+.main-container {
+  background: asset-url("container_bg.png") repeat-y;
+  width: 831px;
+  padding: 0 70px;
+  margin: 0 auto;
+  min-height: 100%;
+}
+
+.header-container {
+  padding: 20px 0;
+
+  .main-logo {
+    a {
+      display: block;
+      .sprite(38px, 212px, "main_logo.png");
+    }
+    float: left;
+  }
+}
+#validation-error-container {
+  color: red;
+  margin: 20px;
+  text-align: center;
+}
+.top-container {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+
+  .stats {
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    background: #dbe4ff;
+
+    .item {
+      color: #5b94ce;
+    }
+
+    .stat {
+      color: #000;
+      font-weight: bold;
+    }
+    .border-bottom-right-radius(10px);
+    .border-bottom-left-radius(10px);
+  }
+
+  .user-info {
+    float: right;
+    color: #878787;
+  }
+}
+
+.top-form-search {
+  .query {
+    border: 8px solid #94c9ff;
+    width: 530px;
+    height: 27px;
+    float: left;
+    margin-left: 10px;
+  }
+
+  .btn-search {
+    .sprite(51px, 44px, "btn_search.png");
+    border: 0;
+    float: left;
+    margin-left: 5px;
+  }
+}
+
+.navigation {
+  clear: both;
+  background: asset-url("navbar_bg.png") repeat-x;
+  height: 30px;
+
+  .nav-list {
+    list-style-type: none;
+    width: 400px;
+    margin: 0 auto;
+
+    li {
+      float: left;
+      width: 200px;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      line-height: 30px;
+      a {
+        color: #fff;
+        font-weight: bold;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.form-assessment {
+  border: 1px solid #b2b2b2;
+  margin: 20px 0;
+  padding: 0 20px;
+
+  h2 {
+    font-size: 15px;
+  }
+
+  .lecture-info-container {
+    input, label {
+      display: inline-block;
+    }
+
+    label {
+      margin-bottom: 10px;
+      padding: 5px 6px 5px 0;
+      vertical-align: top;
+    }
+  }
+
+  .lecture-experiences-container {
+    float: left;
+    width: 330px;
+    .assessment-form-entry {
+      clear: both;
+      height: 30px;
+      label {
+        float: left;
+        width: 88px;
+      }
+      .input-group {
+        float: right;
+        label {
+          float: none;
+          display: inline-block;
+          width: 50px;
+        }
+      }
+    }
+  }
+
+  .scores-container {
+    float: left;
+    width: 170px;
+    padding: 0 20px;
+    border-left: 1px dashed #ddd;
+    border-right: 1px dashed #ddd;
+
+    label {
+      display: inline;
+      vertical-align: top;
+      line-height: 30px;
+      margin-right: 10px;
+    }
+    select {
+      width: 80px;
+    }
+  }
+  .content-container {
+    float: left;
+    width: 230px;
+    padding: 0 5px;
+
+    textarea {
+      height: 70px;
+    }
+  }
+  .footer {
+    clear: both;
+  }
+}
+
+.assessment-details-container {
+  border: 1px solid #b2b2b2;
+  padding: 10px;
+  h3 {
+    margin: 0;
+  }
+}
+
+.assessment-details {
+  border-top: 1px solid #b2b2b2;
+  margin: 20px 0;
+
+  .item-content-container {
+    width: 190px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+
+    .item-label {
+      display: inline-block;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .item-content {
+      display: inline-block;
+    }
+
+    &.overall-score-container {
+      text-align: center;
+      color: #ff7200;
+    }
+  }
+
+  .lecture-information-container {
+    border-bottom: 1px solid #b2b2b2;
+    height: 30px;
+    padding: 0 15px;
+    background: #ddd;
+
+    .item-content-container {
+      width: auto;
+      min-width: 170px;
+      padding-right: 20px;
+    }
+  }
+
+  .lecture-experiences-container {
+    padding: 0 15px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .lecture-scores-container {
+    padding: 0 15px;
+    height: 30px;
+    border-bottom: 1px solid #b2b2b2;
+    font-size: 12px;
+  }
+
+  .content-container {
+    padding: 20px 15px;
+  }
+
+  .votes-container {
+    width: 800px;
+    padding: 0;
+    margin: 0 auto;
+
+    form {
+      float: left;
+      width: 180px;
+
+      &.positive {
+        text-align: right;
+      }
+    }
+    .progress {
+      float: left;
+      width: 400px;
+      margin: 7px 20px;
+    }
+  }
+
+  .comments-container {
+    h5 {
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      .timestamp {
+        width: 90px;
+      }
+      .actions {
+        width: 50px;
+      }
+      .comment-to-comment-form-container {
+        display: none;
+        form {
+          i {
+            margin: 5px 0;
+          }
+          margin: 0 0 0 20px;
+        }
+      }
+      .child-comment {
+        .content {
+          padding-left: 30px;
+        }
+      }
+    }
+    form {
+      input {
+        vertical-align: top;
+        margin-bottom: 0;
+      }
+
+      margin: 20px 0 0 0;
+    }
+  }
+}
+
+.login-form-container {
+  background: #9eceff;
+  padding: 20px;
+  margin: 100px auto;
+  width: 300px;
+  .login-header {
+    text-align: center;
+    color: #eee;
+  }
+}
+
+.main-assessments-container {
+  border: 1px solid #b2b2b2;
+  padding: 0;
+  margin: 0;
+  width: 410px;
+  float: left;
+
+  &.major {
+    margin-right: 7px;
+  }
+
+  .inner-container {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+}
+
+.main-board-container {
+  font-size: 12px;
+  table {
+    th, td {
+      text-align: center;
+      &.title {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.search-form {
+  .input-large {
+    vertical-align: middle;
+    margin-bottom: 0;
+  }
+}
+
+.assessment-form-modal {
+  .form-assessment {
+    h2 {
+      display: none;
+    }
+    margin: 0;
+    padding: 10px;
+    border: 0;
+
+    .scores-container {
+      width: 200px;
+      padding: 0;
+      border: 0;
+    }
+
+    textarea {
+      height: 100px;
+    }
+  }
+
+  .modal-footer {
+    .btn {
+      margin-right: 10px;
+    }
+  }
+}
+
+.assessment-author-actions {
+  float: right;
+  .button_to {
+    display: inline;
+    div {
+      display: inline;
+    }
+  }
+}
+
+.event-modal {
+  width: 400px;
+  margin-left: -200px;
+  text-align: center;
+}

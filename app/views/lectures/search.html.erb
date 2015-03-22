@@ -1,0 +1,19 @@
+<%= render partial: 'shared/menu' %>
+<div id="content_wrapper">
+  <div id="content_left_wrapper">
+    <% if @result.empty? %>
+      검색 결과가 없습니다.
+    <% else %>
+      <% @result.each do |lecture| %>
+        <%= render partial: 'shared/lecture', locals: { lecture: lecture } %>
+      <% end %>
+    <% end %>
+
+    <%= will_paginate @result, :params => { :query => @query } %>
+  </div>
+
+  <div id="content_right_wrapper">
+    <%= render :partial => 'shared/standings' -%>
+  </div>
+  <div style="clear:both;"></div>
+</div>

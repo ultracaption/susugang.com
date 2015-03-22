@@ -1,0 +1,50 @@
+<div class="main-board-container">
+  <% unless @hide_categories_menu %>
+    <div class="categories-container pull-right btn-group">
+      <%= link_to '전공', assessments_path(category: 'major'), class: 'btn btn-small' %>
+      <%= link_to '교양', assessments_path(category: 'non-major'), class: 'btn btn-small' %>
+    </div>
+  <% end %>
+  <h5>강의평가</h5>
+  <% if @assessments.empty? %>
+    등록된 강의평이 없습니다.
+  <% else %>
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>구분</th>
+          <th>제목</th>
+          <th>추천</th>
+          <th>평점</th>
+          <th>작성일</th>
+          <th>조회수</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @assessments.each do |assessment| %>
+          <tr>
+            <td><%= assessment.id %></td>
+            <td><%= assessment_to_label(assessment) %></td>
+            <td class="title"><%= link_to "#{assessment.title} / #{assessment.provider}", assessment %> <span class="comments-count">(<%= assessment.comment_count %>)</span></td>
+            <td><span class="label label-info"><%= assessment.upvote_count %></span><span class="label label-important"><%= assessment.downvote_count %></span></td>
+            <td><%= s assessment.overall_score %></td>
+            <td><%= l assessment.created_at, format: :short %></td>
+            <td><%= assessment.hit_count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <%= will_paginate @assessments, :params => {:term => @term} -%>
+
+  <div class="actions">
+    <%= link_to '글쓰기', new_assessment_path, class: 'btn' %>
+    <%= form_tag search_assessments_path, method: 'GET', class: 'search-form pull-right' do %>
+      <%= text_field_tag :query, @query, class: 'input-large query' %>
+      <%= submit_tag '검색', class: 'btn btn-search' %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div id="user-info-container">
+  <%= image_tag 'logo.png' %>
+
+  <div id="user-info">
+    <p class="greetings">
+      <%= current_user.nickname %>님 환영합니다!
+    </p>
+
+    <div class="actions-container">
+      <%= link_to 'Logout', destroy_user_session_path, class: 'btn-logout' %>
+    </div>
+  </div>
+</div>

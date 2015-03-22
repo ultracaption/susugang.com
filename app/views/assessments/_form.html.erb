@@ -1,0 +1,87 @@
+<%= form_for @assessment, html: { class: 'form-assessment' } do |f| %>
+  <h2>강의평가 작성하기</h2>
+
+  <div class="lecture-info-container">
+    <%= f.label :title, '강의명' %>
+    <%= f.text_field :title %>
+
+    <%= f.label :provider, '교수님 성함' %>
+    <%= f.text_field :provider, class: 'input-small' %>
+
+    <%= f.label :category, '이수구분' %>
+    <%= f.select :category, options_for_select(Assessment::CATEGORIES.map { |k, v| [v, k] }, @assessment.category) %>
+  </div>
+
+  <div class="lecture-experiences-container">
+    <div class="assessment-form-entry">
+      <%= f.label :group_activity, '팀플과제 유무' %>
+      <div class="input-group">
+        <% Assessment::GROUP_ACTIVITIES.each do |key, label| %>
+          <label class="radio">
+            <%= f.radio_button :group_activity, key %>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="assessment-form-entry">
+      <%= f.label :exam_type, '시험 스타일' %>
+      <div class="input-group">
+        <% Assessment::TEST_STYLES.each do |key, label| %>
+          <label class="checkbox">
+            <%= f.check_box key %>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="assessment-form-entry">
+      <%= f.label :homework_workload, '과제의 양' %>
+      <div class="input-group">
+        <% Assessment::HOMEWORK_WORKLOADS.each do |key, label| %>
+          <label class="radio">
+            <%= f.radio_button :homework_workload, key %>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="assessment-form-entry">
+      <%= f.label :exam_type, '시험 유무' %>
+      <div class="input-group">
+        <% Assessment::EXAMS.each do |key, label| %>
+          <label class="checkbox">
+            <%= f.check_box key %>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="scores-container">
+    <div class="assessment-form-entry">
+      <%= f.label :grading_score, '학점만족도' %>
+      <%= f.select :grading_score, options_for_select(score_options, @assessment.grading_score) %>
+    </div>
+    <div class="assessment-form-entry">
+      <%= f.label :presentation_score, '강의만족도' %>
+      <%= f.select :presentation_score, options_for_select(score_options, @assessment.presentation_score) %>
+    </div>
+    <div class="assessment-form-entry">
+      <%= f.label :difficulty_score, '수업이해도' %>
+      <%= f.select :difficulty_score, options_for_select(score_options, @assessment.difficulty_score) %>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <%= f.text_area :content, class: 'input-block-level', placeholder: '객관식 항목의 추가사항이나 기타의견을 자유롭게 서술해주세요.' %>
+    <%= f.submit '등록하기', class: 'btn btn-primary btn-block' %>
+  </div>
+
+  <div class="footer">
+  </div>
+<% end %>

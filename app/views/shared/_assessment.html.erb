@@ -1,0 +1,89 @@
+<div class="assessment-details-container">
+  <div class="assessment-author-actions">
+    <% if current_user.id == assessment.user_id %>
+      <%= link_to '수정', edit_assessment_path(assessment), class: 'btn btn-info' %>
+      <%= button_to '삭제', assessment, method: :delete, class: 'btn btn-danger' %>
+    <% end %>
+  </div>
+
+  <h3>강의평가</h3>
+
+  <div class="assessment-details">
+    <div class="lecture-information-container">
+      <%= item_label_and_content '강의명 |', assessment.title %>
+      <%= item_label_and_content '교수님 성함 |', assessment.provider %>
+      <%= item_label_and_content '이수구분 |', Assessment::CATEGORIES[assessment.category.to_sym] %>
+    </div>
+    <div class="lecture-experiences-container">
+      <%= item_label_and_content '팀플과제 유무 |', translate_assessment_items(assessment, :group_activity) %>
+      <%= item_label_and_content '시험 스타일 |', translate_assessment_items(assessment, :test_styles) %>
+      <%= item_label_and_content '과제의 양 |', translate_assessment_items(assessment, :homework_workload) %>
+      <%= item_label_and_content '시험유무 |', translate_assessment_items(assessment, :exams) %>
+    </div>
+    <div class="lecture-scores-container">
+      <%= item_label_and_content '학점 만족도 |', s(assessment.grading_score, user_id: assessment.user_id, translate: true) %>
+      <%= item_label_and_content '강의 만족도 |', s(assessment.presentation_score, user_id: assessment.user_id, translate: true) %>
+      <%= item_label_and_content '수업 이해도 |', s(assessment.difficulty_score, user_id: assessment.user_id, translate: true) %>
+
+      <div class="item-content-container overall-score-container">
+        평점 <%= s(assessment.overall_score) %>
+      </div>
+    </div>
+    <div class="content-container">
+      <p>
+        <%= c(assessment.content, :user_id => assessment.user_id) %>
+      </p>
+    </div>
+
+    <div class="votes-container">
+      <%= form_for [assessment, Vote.new(positive: true)], html: { class: 'positive' } do |f| %>
+        <%= f.hidden_field :positive %>
+        <%= f.submit '추천', class: 'btn' %>
+      <% end %>
+      <div class="progress">
+        <div class="bar bar-info" style="width: <%= assessment.positive_votes_percentage %>%;"><%= assessment.votes.positive.count %></div>
+        <div class="bar bar-danger" style="width: <%= assessment.negative_votes_percentage %>%;"><%= assessment.votes.negative.count %></div>
+      </div>
+      <%= form_for [assessment, Vote.new(positive: false)], html: { class: 'negative' } do |f| %>
+        <%= f.submit '비추천', class: 'btn' %>
+      <% end %>
+    </div>
+
+    <div class="comments-container">
+      <h5 class="page-header">댓글 (<%= assessment.comments.count %>)</h5>
+
+      <table class="table table-hover table-condensed comments">
+        <% assessment.packed_comments.each do |comment| %>
+          <tr class="comment">
+            <td class="content"><%= comment.content %></td>
+            <td class="timestamp"><%= l comment.created_at, format: :short %></td>
+            <td class="actions"><i class="icon-comment"></i> <a href="#" class="btn-reply">답글</a></td>
+          </tr>
+          <% comment.children.each do |child| %>
+            <tr class="child-comment">
+              <td class="content"><i class="icon-comment"></i> <%= child.content %></td>
+              <td class="timestamp"><%= l child.created_at, format: :short %></td>
+              <td class="actions"></td>
+            </tr>
+          <% end %>
+          <tr class="comment-to-comment-form-container">
+            <td colspan="3">
+              <%= form_for [assessment, Comment.new(parent_id: comment.id)] do |f| %>
+                <i class="icon-comment"></i>
+                <%= f.hidden_field :parent_id %>
+                <%= f.text_field :content, class: 'input-xxlarge' %>
+                <%= f.submit '등록', class: 'btn' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+
+      <%= form_for [assessment, Comment.new] do |f| %>
+        <%= link_to '목록', assessments_path(category: assessment.is_major ? 'major' : 'non-major'), class: 'btn' %>
+        <%= f.text_field :content, class: 'input-xxlarge' %>
+        <%= f.submit '등록', class: 'btn' %>
+      <% end %>
+    </div>
+  </div>
+</div>

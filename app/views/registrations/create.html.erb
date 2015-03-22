@@ -1,0 +1,44 @@
+<div id="join-container">
+  <div class="notice-container">
+    <h1 class="title">숙story</h1>
+    <div class="announcements">
+      <h2>2단계</h2>
+      <ul>
+        <li>숙명여자대학교 <strong>커뮤니티 아이디</strong>을 아이디로 설정해 주세요.</li>
+        <li>회원가입 완료 후 강의평가 <strong>3개를 필수</strong>로 등록해 주세요. 강의평 3개 등록 후 숙story 활동이 가능합니다.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-container">
+    <%= form_for @user, as: :user, url: registration_path(:user), html: { class: 'form-horizontal' } do |f| %>
+      <% unless @user.errors.empty? %>
+        <%= @user.errors.full_messages.join ' ' %>
+      <% end %>
+      <div class="control-group">
+        <%= f.label :username, 'ID', class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :username, class: 'input-small', placeholder: 'ID' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :password, '비밀번호', class: 'control-label' %>
+        <div class="controls">
+          <%= f.password_field :password, class: 'input-small', placeholder: 'password' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :password_confirmation, '비밀번호 확인', class: 'control-label' %>
+        <div class="controls">
+          <%= f.password_field :password_confirmation, class: 'input-small', placeholder: 'password' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :student_id, '학번', class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :student_id, class: 'input-small', placeholder: '1022 2033' %>
+        </div>
+      </div>
+      <%= f.submit 'submit', id:"join_button" -%>
+    <% end %>
+  </div>
+</div>

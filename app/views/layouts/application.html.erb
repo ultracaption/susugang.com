@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<% if notice || alert %>
+  <script type="text/javascript">
+    $(function() {
+      humane.log('<%= notice || alert %>');
+    });
+  </script>
+<% end %>
+
+<div class="main-container container">
+  <div class="top-container">
+    <div class="user-info">
+      <% if user_signed_in? %>
+        <%= current_user.username %>님 환영합니다
+        <%= link_to '로그아웃', destroy_user_session_path, class: 'label' %>
+      <% else %>
+        <%= link_to 'Login', new_user_session_path %>
+      <% end %>
+      <%= link_to 'Klassmate Mic', 'https://www.facebook.com/klassmate.mic', class: 'label label-info' %>
+    </div>
+
+    <div class="stats">
+      <span class="item">new</span> <span class="stat"><%= Assessment.where('created_at > ?', 24.hours.ago).count %></span>
+      <span class="item">total</span> <span class="stat"><%= Assessment.count %></span>
+    </div>
+  </div>
+  <div class="header-container">
+    <h1 class="main-logo"><a href="/">수수깡<small>수정이들의 강의평가</small></a></h1>
+    <%= form_tag search_assessments_path, method: 'GET', class: 'top-form-search form-inline' do %>
+      <%= text_field_tag :query, @query, class: 'query' %>
+      <%= submit_tag '검색', class: 'btn-search' %>
+    <% end %>
+  </div>
+
+  <%= render partial: 'shared/menu' %>
+
+  <%= yield %>
+</div>
+
+</body>
+</html>

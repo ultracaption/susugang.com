@@ -1,0 +1,19 @@
+<div class="well well-small" style="margin-left:20px;">
+<h4>눈꽃랭킹 TOP 20</h4>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>강의평</th>
+      <th>총점</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @lectures.each do |lecture| -%>
+    <tr>
+      <td><%= link_to lecture.title, lecture %></a>
+      <td><%= s(lecture.overall_score) %></td>
+    </tr>
+    <% end -%>
+  </tbody>
+</table>
+</div>

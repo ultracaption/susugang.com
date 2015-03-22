@@ -1,0 +1,92 @@
+<script>
+  $(function() {
+    $(".input-slider").each(function(e) {
+      var _$this = $(this);
+      var _$input = _$this.find('input');
+      var _$label = $(this).prev();
+
+      $(this).slider({
+        step: 1, min: 1, max: 10, value: _$input.val(), animate: "fast",
+        slide: function(event, ui) {
+          _$input.val(ui.value);
+          _$label.html(ui.value);
+        }
+      });
+    });
+  });
+</script>
+
+<div id="lecture-container">
+  <%= render partial: 'shared/menu' %>
+  <div class="content-container">
+    <div class="left">
+      <h1 style="margin-left:20px;text-decoration:underline;"><%=@lecture.title %><small>[<%= @lecture.provider %>]</small></h1>
+
+      <div class="well well-small">
+        <% if current_user.finished_registration? %>
+          <h3>총점</h3>
+          <div class="progress progress-striped">
+            <div class="bar" style="width: <%= '%.2f' % (@lecture.overall_score * 10) %>%;">
+              <span class="label label-info"><%= '%.1f' % @lecture.overall_score -%></span>
+            </div>
+          </div>
+          <%= render partial: 'shared/score', locals: { label: '수업만족도', attribute: :presentation_score } %>
+          <%= render partial: 'shared/score', locals: { label: '과제만족도', attribute: :workload_score } %>
+          <%= render partial: 'shared/score', locals: { label: '학점만족도', attribute: :grading_score } %>
+        <% else %>
+          <%= I18n.t 'assessments.blinded_content' %>
+        <% end %>
+      </div>
+
+      <%= form_for [@lecture, @assessment] do |f| %>
+        <div class="well well-small">
+          <h3>나도 평가하기</h3>
+
+          <div class="score-input-container">
+            <%= label :presentation_score, '수업만족도' %>
+            <span class="label"><%= @assessment.presentation_score %></span>
+            <div class="input-slider">
+              <%= f.hidden_field :presentation_score %>
+            </div>
+          </div>
+
+          <div class="score-input-container">
+            <%= label :workload_score, '과제만족도' %>
+            <span class="label"><%= @assessment.workload_score %></span>
+            <div class="input-slider">
+              <%= f.hidden_field :workload_score %>
+            </div>
+          </div>
+
+          <div class="score-input-container">
+            <%= label :grading_score, '학점만족도' %>
+            <span class="label"><%= @assessment.grading_score %></span>
+            <div class="input-slider">
+              <%= f.hidden_field :grading_score %>
+            </div>
+          </div>
+
+          <h5>주관식 의견</h5>
+          <%= f.text_area :content, class: 'textarea-content', placeholder: '자유롭게 써 주세요' %>
+          <%= f.submit '작성하기', class: 'btn btn-primary btn-submit' %>
+        </div>
+      <% end %>
+
+      <% @assessments.each do |assessment| %>
+        <div class="assessment well well-small <%= assessment.user_id == current_user.id ? 'mine' : '' %>">
+          총점 <span class="label label-success"><%= s(assessment.overall_score, :user_id => assessment.user_id) %></span>
+          수업만족도 <span class="label"><%= s(assessment.presentation_score, :user_id => assessment.user_id) %></span>
+          과제만족도 <span class="label"><%= s(assessment.workload_score, :user_id => assessment.user_id) %></span>
+          학점만족도 <span class="label"><%= s(assessment.grading_score, :user_id => assessment.user_id) %></span>
+
+          <div class="content">
+            <%= c(assessment.content, :user_id => assessment.user_id) %>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+    <div class="right">
+      <%= render partial: 'shared/standings' %>
+    </div>
+  </div>
+</div>

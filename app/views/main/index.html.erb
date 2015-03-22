@@ -1,0 +1,153 @@
+<div class="main-contents">
+  <%= render partial: 'assessments/form' %>
+
+  <div class="main-assessments-container major">
+    <div class="inner-container">
+      <h5>전공<small class="pull-right"><%= link_to 'more...', assessments_path(category: 'major') %></small></h5>
+      <% if @assessments_for_major.empty? %>
+        등록된 강의평이 없습니다.
+      <% else %>
+        <table class="table table-condensed">
+          <% @assessments_for_major.each do |assessment| %>
+            <tr>
+              <td><%= assessment_to_label(assessment) %></td>
+              <td><%= link_to "#{assessment.title} / #{assessment.provider}", assessment %></td>
+              <td>평점 <%= s assessment.overall_score %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="main-assessments-container non-major">
+    <div class="inner-container">
+      <h5>교양<small class="pull-right"><%= link_to 'more...', assessments_path(category: 'non-major') %></small></h5>
+      <% if @assessments_for_non_major.empty? %>
+        등록된 강의평이 없습니다.
+      <% else %>
+        <table class="table table-condensed">
+          <% @assessments_for_non_major.each do |assessment| %>
+            <tr>
+              <td><%= assessment_to_label(assessment) %></td>
+              <td><%= link_to "#{assessment.title} / #{assessment.provider}", assessment %></td>
+              <td>평점 <%= s assessment.overall_score %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
+  </div>
+
+  <div style="clear:both;"></div>
+</div>
+
+<div 
+
+<% if current_user && !current_user.finished_registration? %>
+  <div class="assessment-form-modal modal hide fade">
+    <div class="modal-header">
+      <h3>강의를 평가해주세요</h3>
+    </div>
+    <%= form_for @assessment, html: { class: 'form-assessment' } do |f| %>
+      <div class="modal-body">
+        <div class="lecture-info-container">
+          <%= f.label :title, '강의명' %>
+          <%= f.text_field :title %>
+
+          <%= f.label :provider, '교수님 성함' %>
+          <%= f.text_field :provider, class: 'input-small' %>
+
+          <%= f.label :category, '이수구분' %>
+          <%= f.select :category, options_for_select(Assessment::CATEGORIES.map { |k, v| [v, k] }, @assessment.category) %>
+        </div>
+
+        <div class="lecture-experiences-container">
+          <div class="assessment-form-entry">
+            <%= f.label :group_activity, '팀플과제 유무' %>
+            <div class="input-group">
+              <% Assessment::GROUP_ACTIVITIES.each do |key, label| %>
+                <label class="radio">
+                  <%= f.radio_button :group_activity, key %>
+                  <%= label %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="assessment-form-entry">
+            <%= f.label :exam_type, '시험 스타일' %>
+            <div class="input-group">
+              <% Assessment::TEST_STYLES.each do |key, label| %>
+                <label class="checkbox">
+                  <%= f.check_box key %>
+                  <%= label %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="assessment-form-entry">
+            <%= f.label :homework_workload, '과제의 양' %>
+            <div class="input-group">
+              <% Assessment::HOMEWORK_WORKLOADS.each do |key, label| %>
+                <label class="radio">
+                  <%= f.radio_button :homework_workload, key %>
+                  <%= label %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="assessment-form-entry">
+            <%= f.label :exam_type, '시험 유무' %>
+            <div class="input-group">
+              <% Assessment::EXAMS.each do |key, label| %>
+                <label class="checkbox">
+                  <%= f.check_box key %>
+                  <%= label %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="scores-container">
+          <div class="assessment-form-entry">
+            <%= f.label :grading_score, '학점만족도' %>
+            <%= f.select :grading_score, options_for_select(score_options, @assessment.grading_score) %>
+          </div>
+          <div class="assessment-form-entry">
+            <%= f.label :presentation_score, '강의만족도' %>
+            <%= f.select :presentation_score, options_for_select(score_options, @assessment.presentation_score) %>
+          </div>
+          <div class="assessment-form-entry">
+            <%= f.label :difficulty_score, '수업이해도' %>
+            <%= f.select :difficulty_score, options_for_select(score_options, @assessment.difficulty_score) %>
+          </div>
+        </div>
+
+        <div class="content-container">
+          <%= f.text_area :content, class: 'input-block-level', placeholder: '객관식 항목의 추가사항이나 기타의견을 자유롭게 서술해주세요.' %>
+        </div>
+
+        <div class="footer">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.submit '등록하기', class: 'btn btn-primary' %>
+        <%= current_user.assessment_count %> / <%= User::REGISTRATION_FINISHED_AFTER_ASSESSING %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    <% if current_user && !current_user.finished_registration? %>
+      var needRegistration = true;
+    <% else %>
+      var needRegistration = false;
+    <% end %>
+  });
+</script>
